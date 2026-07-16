@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Physio Studio — Dr. Tooba, DPT, MS, NMPT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#142B27;
+    --paper:#EEF0E8;
+    --paper-2:#E4E8DD;
+    --gold:#C6922B;
+    --brick:#9C4A36;
+    --line: rgba(20,43,39,0.15);
+    --ink-soft: rgba(20,43,39,0.68);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--brick); outline-offset:3px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(238,240,232,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px; max-width:1120px; margin:0 auto;
+  }
+  .brand{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.3rem;
+    display:flex; align-items:center; gap:10px; letter-spacing:-0.01em;
+  }
+  .brand-mark{
+    width:26px; height:26px; flex-shrink:0;
+  }
+  .nav-links{display:flex; gap:36px; font-size:0.92rem;}
+  .nav-links a{position:relative; padding:4px 0;}
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:var(--ink); transition:width 0.25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{
+    background:var(--ink); color:var(--paper); padding:10px 20px;
+    border-radius:2px; font-size:0.88rem; font-weight:500;
+    transition:background 0.2s ease;
+  }
+  .nav-cta:hover{background:var(--brick);}
+  .nav-toggle{display:none;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:96px 32px 120px;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-inner{
+    max-width:1120px; margin:0 auto;
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:48px; align-items:center;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--brick); margin-bottom:22px; display:block;
+  }
+  h1{
+    font-family:'Fraunces', serif; font-weight:500; font-size:clamp(2.6rem, 5.2vw, 4.4rem);
+    line-height:1.03; letter-spacing:-0.02em; margin-bottom:24px;
+  }
+  h1 em{font-style:italic; color:var(--brick); font-weight:500;}
+  .hero p.lead{
+    font-size:1.15rem; color:var(--ink-soft); max-width:46ch; margin-bottom:36px;
+  }
+  .hero-ctas{display:flex; gap:16px; flex-wrap:wrap; align-items:center;}
+  .btn-primary{
+    background:var(--ink); color:var(--paper); padding:15px 28px; border-radius:2px;
+    font-weight:500; font-size:0.95rem; border:1px solid var(--ink); display:inline-block;
+    transition:all 0.2s ease;
+  }
+  .btn-primary:hover{background:var(--brick); border-color:var(--brick);}
+  .btn-ghost{
+    padding:15px 6px; font-weight:500; font-size:0.95rem; border-bottom:1px solid var(--ink);
+  }
+
+  /* Goniometer signature graphic */
+  .gonio{
+    position:relative; width:100%; aspect-ratio:1/0.85;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .gonio svg{width:100%; height:100%; overflow:visible;}
+  .gonio-needle{
+    transform-origin: 200px 210px;
+    animation: sweep 2.6s cubic-bezier(.4,0,.2,1) forwards;
+  }
+  @keyframes sweep{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(-142deg);}
+  }
+  .gonio-readout{
+    font-family:'IBM Plex Mono', monospace; font-size:0.85rem; fill:var(--ink-soft);
+  }
+  .gonio-big{
+    font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:2.6rem; fill:var(--ink);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .gonio-needle{animation:none; transform:rotate(-142deg);}
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:96px 32px; border-bottom:1px solid var(--line);}
+  .section-head{
+    display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:end; margin-bottom:64px;
+  }
+  .section-eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--brick); margin-bottom:14px; display:block;
+  }
+  h2{
+    font-family:'Fraunces', serif; font-weight:500; font-size:clamp(2rem, 3.4vw, 2.8rem);
+    letter-spacing:-0.015em; line-height:1.1;
+  }
+  .section-head p{color:var(--ink-soft); font-size:1.02rem; max-width:42ch;}
+
+  /* ---------- ABOUT ---------- */
+  .about{background:var(--paper-2);}
+  .about-grid{
+    display:grid; grid-template-columns:0.8fr 1.2fr; gap:64px; align-items:start;
+  }
+  .about-portrait{
+    aspect-ratio:3/4; background:linear-gradient(160deg, #1B3A34, #142B27);
+    border-radius:2px; position:relative; overflow:hidden;
+    display:flex; align-items:flex-end; padding:24px;
+  }
+  .about-portrait span{
+    font-family:'IBM Plex Mono', monospace; color:rgba(238,240,232,0.55); font-size:0.8rem;
+  }
+  .credentials{list-style:none; margin-top:28px; display:flex; flex-direction:column; gap:10px;}
+  .credentials li{
+    font-family:'IBM Plex Mono', monospace; font-size:0.85rem; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .credentials li::before{
+    content:'—'; position:absolute; left:0; color:var(--brick);
+  }
+  .about-bio p{margin-bottom:18px; color:var(--ink-soft); font-size:1.02rem; max-width:60ch;}
+  .about-bio p:first-child{color:var(--ink); font-size:1.15rem;}
+
+  /* ---------- SERVICES ---------- */
+  .services-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .service-card{
+    background:var(--paper); padding:36px 28px; min-height:260px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    transition:background 0.25s ease;
+  }
+  .service-card:hover{background:var(--paper-2);}
+  .service-top{display:flex; justify-content:space-between; align-items:flex-start;}
+  .service-range{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--brick);
+    letter-spacing:0.02em; text-align:right;
+  }
+  .service-card h3{
+    font-family:'Fraunces', serif; font-weight:500; font-size:1.3rem; margin:22px 0 10px;
+  }
+  .service-card p{font-size:0.92rem; color:var(--ink-soft);}
+
+  /* ---------- PROCESS ---------- */
+  .process-list{display:flex; flex-direction:column;}
+  .process-item{
+    display:grid; grid-template-columns:80px 1fr 1fr; gap:24px; align-items:start;
+    padding:32px 0; border-top:1px solid var(--line);
+  }
+  .process-item:last-child{border-bottom:1px solid var(--line);}
+  .process-num{font-family:'IBM Plex Mono', monospace; font-size:0.85rem; color:var(--brick); padding-top:4px;}
+  .process-item h3{font-family:'Fraunces', serif; font-weight:500; font-size:1.4rem;}
+  .process-item p{color:var(--ink-soft); font-size:0.95rem; max-width:50ch;}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{background:var(--ink); color:var(--paper);}
+  .testimonials .section-eyebrow{color:var(--gold);}
+  .testimonials h2{color:var(--paper);}
+  .testimonials .section-head p{color:rgba(238,240,232,0.65);}
+  .quote-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:40px;}
+  .quote-card p.q{
+    font-family:'Fraunces', serif; font-size:1.15rem; font-style:italic; line-height:1.45;
+    margin-bottom:20px; color:rgba(238,240,232,0.92);
+  }
+  .quote-attr{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:rgba(238,240,232,0.55);}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px;}
+  .info-block{margin-bottom:32px;}
+  .info-label{
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--brick); margin-bottom:8px; display:block;
+  }
+  .info-value{font-size:1.05rem;}
+  .hours-row{display:flex; justify-content:space-between; padding:10px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+  .hours-row:last-child{border-bottom:1px solid var(--line);}
+  form{display:flex; flex-direction:column; gap:18px;}
+  label{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px; display:block;}
+  input, textarea, select{
+    width:100%; background:transparent; border:none; border-bottom:1px solid var(--line);
+    padding:10px 2px; font-family:'Space Grotesk', sans-serif; font-size:1rem; color:var(--ink);
+  }
+  input:focus, textarea:focus, select:focus{border-bottom:1px solid var(--ink);}
+  textarea{resize:vertical; min-height:80px;}
+  .submit-btn{
+    margin-top:8px; align-self:flex-start; background:var(--ink); color:var(--paper);
+    padding:15px 30px; border:none; border-radius:2px; font-family:'Space Grotesk', sans-serif;
+    font-weight:500; font-size:0.95rem; cursor:pointer; transition:background 0.2s ease;
+  }
+  .submit-btn:hover{background:var(--brick);}
+  .form-note{font-size:0.8rem; color:var(--ink-soft); margin-top:4px;}
+
+  footer{padding:40px 32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  footer .brand{font-size:1rem;}
+  .footer-links{display:flex; gap:28px; font-size:0.85rem; color:var(--ink-soft);}
+
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .hero-inner{grid-template-columns:1fr; gap:56px;}
+    .gonio{max-width:340px; margin:0 auto;}
+    .section-head{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr;}
+    .quote-grid{grid-template-columns:1fr; gap:32px;}
+    .contact-grid{grid-template-columns:1fr; gap:40px;}
+    .process-item{grid-template-columns:50px 1fr; }
+    .process-item p{grid-column:2/3;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap" style="padding-left:0; padding-right:0;">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 26 26" fill="none">
+        <path d="M13 2 A11 11 0 0 1 24 13" stroke="#9C4A36" stroke-width="2" fill="none"/>
+        <line x1="13" y1="13" x2="20" y2="6" stroke="#142B27" stroke-width="2"/>
+        <circle cx="13" cy="13" r="2" fill="#142B27"/>
+      </svg>
+      The Physio Studio
+    </div>
+    <div class="nav-links">
+      <a href="#approach">Approach</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#results">Results</a>
+    </div>
+    <a href="#contact" class="nav-cta">Book a session</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow">Dr. Tooba, DPT, MS, NMPT — In-clinic &amp; home visits</span>
+      <h1>Measure the<br>problem. <em>Move</em><br>past it.</h1>
+      <p class="lead">Dr. Tooba, DPT, MS, NMPT, helps active adults and post-op patients recover full function — with a plan built on real measurements, not guesswork.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Book a session</a>
+        <a href="#approach" class="btn-ghost">How sessions work →</a>
+      </div>
+    </div>
+    <div class="gonio" aria-hidden="true">
+      <svg viewBox="0 0 400 260">
+        <path d="M 40 210 A 160 160 0 0 1 360 210" stroke="#142B27" stroke-opacity="0.18" stroke-width="1" fill="none"/>
+        <path d="M 60 210 A 140 140 0 0 1 340 210" stroke="#142B27" stroke-opacity="0.12" stroke-width="1" fill="none" stroke-dasharray="2 6"/>
+        <text x="30" y="225" class="gonio-readout">0°</text>
+        <text x="350" y="225" class="gonio-readout">180°</text>
+        <text x="185" y="55" class="gonio-readout">90°</text>
+        <line x1="40" y1="210" x2="360" y2="210" stroke="#142B27" stroke-opacity="0.25" stroke-width="1"/>
+        <g class="gonio-needle">
+          <line x1="200" y1="210" x2="200" y2="55" stroke="#9C4A36" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <circle cx="200" cy="210" r="6" fill="#142B27"/>
+        <text x="150" y="250" class="gonio-big">142°</text>
+        <text x="150" y="266" class="gonio-readout">shoulder flexion — week 6</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="section about" id="approach">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-eyebrow">Approach</span>
+        <h2>Recovery you can point to on a chart.</h2>
+      </div>
+      <p>Every plan starts with a baseline and ends with a number you can see improve.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-portrait">
+        <span>Dr. Tooba, DPT, MS, NMPT<br>The Physio Studio</span>
+      </div>
+      <div class="about-bio">
+        <p>I trained as a physical therapist because I wanted rehab to feel less like guesswork and more like engineering — a clear baseline, a clear target, and a plan to close the gap.</p>
+        <p>Since starting practice, I've worked with runners returning from stress fractures, weekend athletes rebuilding a shoulder after surgery, and people simply tired of living around their own back pain. The tools are the same each time: careful assessment, hands-on treatment, and a home program that actually fits a real week.</p>
+        <p>Sessions run 45–60 minutes, one-on-one, with the same clinician throughout your plan — no rotating staff, no repeating your history at every visit.</p>
+        <ul class="credentials">
+          <li>Doctor of Physical Therapy (DPT)</li>
+          <li>Master of Science (MS)</li>
+          <li>Neuro-Musculoskeletal Physical Therapist (NMPT)</li>
+          <li>Manual therapy &amp; therapeutic exercise</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-eyebrow">Services</span>
+        <h2>Treatment built around your specific joint, tissue, or task.</h2>
+      </div>
+      <p>Each program is scoped to a measurable range or capacity — not a generic number of sessions.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-top">
+          <div></div>
+          <div class="service-range">ROM 0°→180°</div>
+        </div>
+        <div>
+          <h3>Manual therapy</h3>
+          <p>Hands-on joint mobilization and soft tissue work to restore motion and cut pain quickly.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-top">
+          <div></div>
+          <div class="service-range">RTP 6–16 wks</div>
+        </div>
+        <div>
+          <h3>Sports rehab</h3>
+          <p>Return-to-play programs for runners, lifters, and field-sport athletes after injury.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-top">
+          <div></div>
+          <div class="service-range">POST-OP</div>
+        </div>
+        <div>
+          <h3>Surgical recovery</h3>
+          <p>Structured post-op protocols for knee, shoulder, and spine procedures, coordinated with your surgeon.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-top">
+          <div></div>
+          <div class="service-range">CHRONIC</div>
+        </div>
+        <div>
+          <h3>Persistent pain</h3>
+          <p>Graded, evidence-based care for long-standing back, neck, and joint pain that hasn't resolved on its own.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-top">
+          <div></div>
+          <div class="service-range">SCREEN</div>
+        </div>
+        <div>
+          <h3>Movement screening</h3>
+          <p>A full functional assessment to catch imbalances before they become injuries.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-top">
+          <div></div>
+          <div class="service-range">REMOTE</div>
+        </div>
+        <div>
+          <h3>Home &amp; virtual visits</h3>
+          <p>In-home sessions and video check-ins for patients who can't easily get to the clinic.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-eyebrow">Process</span>
+        <h2>Four visits. One continuous plan.</h2>
+      </div>
+      <p>The same sequence runs through every course of treatment, adjusted to your goals.</p>
+    </div>
+    <div class="process-list">
+      <div class="process-item">
+        <div class="process-num">01</div>
+        <h3>Assess</h3>
+        <p>A full evaluation of strength, range of motion, and movement patterns to find the real source of the problem.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-num">02</div>
+        <h3>Treat</h3>
+        <p>Hands-on manual therapy paired with targeted exercise, done together in-session.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-num">03</div>
+        <h3>Track</h3>
+        <p>Every visit is measured — range, strength, and pain scores — so progress is visible, not assumed.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-num">04</div>
+        <h3>Progress</h3>
+        <p>Your home program advances as your numbers improve, until you're back to full function.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section testimonials" id="results">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-eyebrow">Results</span>
+        <h2>What patients say after their last visit.</h2>
+      </div>
+      <p>A few notes from recent discharge conversations.</p>
+    </div>
+    <div class="quote-grid">
+      <div class="quote-card">
+        <p class="q">"I went from barely lifting a grocery bag to a full push-up progression in twelve weeks. Every session started by checking the last one's numbers."</p>
+        <div class="quote-attr">SHOULDER REHAB — POST-OP, WK 12</div>
+      </div>
+      <div class="quote-card">
+        <p class="q">"First clinician who explained why my back pain kept coming back, instead of just handing me the same stretches again."</p>
+        <div class="quote-attr">CHRONIC LOW BACK PAIN</div>
+      </div>
+      <div class="quote-card">
+        <p class="q">"Back to running 10Ks four months after a stress fracture, with a plan I actually understood the logic of."</p>
+        <div class="quote-attr">RETURN TO RUNNING</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="section-eyebrow">Book a session</span>
+        <h2>Start with an assessment.</h2>
+      </div>
+      <p>Tell me what's going on and I'll follow up to schedule your first visit.</p>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-block">
+          <span class="info-label">Clinic</span>
+          <div class="info-value">123 Wellness Ave, Suite 4<br>Springfield, ST 00000</div>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Phone / Email</span>
+          <div class="info-value">(555) 010-2024<br>hello@thephysiostudio.example</div>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Hours</span>
+          <div class="hours-row"><span>Mon – Thu</span><span>7:00 AM – 6:00 PM</span></div>
+          <div class="hours-row"><span>Friday</span><span>7:00 AM – 4:00 PM</span></div>
+          <div class="hours-row"><span>Weekends</span><span>By appointment</span></div>
+        </div>
+      </div>
+      <form onsubmit="event.preventDefault(); document.getElementById('form-status').textContent='Thanks — this is a demo form, so nothing was actually sent yet.';">
+        <div>
+          <label for="name">Full name</label>
+          <input id="name" type="text" required>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" type="email" required>
+        </div>
+        <div>
+          <label for="reason">What brings you in?</label>
+          <textarea id="reason" required></textarea>
+        </div>
+        <button class="submit-btn" type="submit">Request appointment</button>
+        <p class="form-note" id="form-status">This form is a placeholder — connect it to email or a booking tool to go live.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="brand">The Physio Studio</div>
+  <div class="footer-links">
+    <span>© 2026 Dr. Tooba, DPT, MS, NMPT</span>
+    <a href="#approach">Approach</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
